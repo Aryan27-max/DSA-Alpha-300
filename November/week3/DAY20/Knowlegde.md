@@ -39,8 +39,8 @@ target 0 → index 0
 all 4 cases are the same question - first index where nums[i] >= target 
 ```
 nums     1  3  5  6
->= 2 ?   F  T  T  T   → first T = 1 ✓
->= 7 ?   F  F  F  F   → no T → answer = n = 4 ✓
+>= 2 ?   F  T  T  T   → first T = 1 (correct)
+>= 7 ?   F  F  F  F   → no T → answer = n = 4 (correct)
 ```
 
 same F F T T boundary as day 19 
@@ -222,17 +222,25 @@ Space Complexity - O(1)
 ```
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        for row in matrix:
-            lo = 0
-            hi = len(row) - 1
-            while lo <= hi:
-                mid = lo + (hi - lo) // 2
-                if row[mid] == target:
-                    return True
-                elif row[mid] < target:
-                    lo = mid + 1
-                else:
-                    hi = mid - 1
+        m = len(matrix)
+        n = len(matrix[0])
+
+        lo = 0
+        hi = m * n - 1
+
+        while lo <= hi:
+            mid = lo + (hi - lo) // 2
+
+            row = mid // n
+            col = mid % n
+
+            if matrix[row][col] == target:
+                return True
+            elif matrix[row][col] < target:
+                lo = mid + 1
+            else:
+                hi = mid - 1
+
         return False
 ```
 
